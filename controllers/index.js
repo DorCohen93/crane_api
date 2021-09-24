@@ -8,9 +8,10 @@
 const deviceServices = require("../services")
 const showDevices = async (req, res, next) => {
     try {
-        const deviceList = await deviceServices.getDevice()
-        res.writeHead(200, { 'Content-Type': 'text/html' });
-        res.end(deviceList);
+        const deviceList = await deviceServices.getDevices()
+        //console.log(deviceList)
+        //res.writeHead(200, { 'Content-Type': 'text/html' });
+        res.send(deviceList);
 
     } catch (e) {
         console.log(e.message)
@@ -21,7 +22,7 @@ const showDevices = async (req, res, next) => {
 
 const createDevice = async (req, res, next) => {
     try {
-        await deviceServices.createDevice()
+        await deviceServices.createDevice(req)
         res.writeHead(200, { 'Content-Type': 'text/html' });
         res.end("Device was created");
 

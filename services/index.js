@@ -4,17 +4,25 @@
   * if you need to make calls to additional tables, data stores (Redis, for example), 
   * or call an external endpoint as part of creating the blogpost, add them to this service
 */
-const createDevice = async (content) => {
+
+const crane = require("../model/crane")
+const craneList = []
+const createDevice = async (data) => {
+
     try {
-        return await ""
+
+        const newCrange = new crane(data.body)
+        craneList.push(newCrange)
+        console.log(data.body)
     } catch (e) {
         throw new Error(e.message)
     }
 }
 
-const getDevice = async () => {
+const getDevices = async () => {
     try {
-        return await "dor"
+        console.log(craneList)
+        return await craneList
     } catch (e) {
         throw new Error(e.message)
     }
@@ -22,5 +30,5 @@ const getDevice = async () => {
 
 module.exports = {
     createDevice,
-    getDevice
+    getDevices
 }
