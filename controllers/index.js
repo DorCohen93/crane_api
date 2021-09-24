@@ -8,10 +8,9 @@
 const deviceServices = require("../services")
 const showDevices = async (req, res, next) => {
     try {
-        const deviceList = await deviceServices.getDevices()
-        //console.log(deviceList)
-        //res.writeHead(200, { 'Content-Type': 'text/html' });
-        res.send(deviceList);
+        const crangeList = await deviceServices.getCranes()
+        res.send(crangeList);
+        res.writeHead(200, { 'Content-Type': 'text/html' });
 
     } catch (e) {
         console.log(e.message)
@@ -19,9 +18,32 @@ const showDevices = async (req, res, next) => {
     }
 
 }
+const showDevice = async (req, res, next) => {
+    try {
+        const device = await deviceServices.getDevice(req.params.id)
+        if (device) {
+            res.send(device);
+            res.writeHead(200, { 'Content-Type': 'text/html' });
+        }
+        else {
+            res.sendStatus(404);
+        }
+    } catch (e) {
+        console.log(e.message)
+        res.sendStatus(500) && next(error)
+    }
+
+}
+
 
 const createDevice = async (req, res, next) => {
     try {
+        craneList = await deviceServices.getCranes()
+        for (const element of craneList) {
+            if (element.id == req.body["id"] || element.serial_number == req.body["serial_number"]) {
+                res.sendStatus(409).send('the device already exist')
+            }
+        };
         await deviceServices.createDevice(req)
         res.writeHead(200, { 'Content-Type': 'text/html' });
         res.end("Device was created");
@@ -38,5 +60,6 @@ const createDevice = async (req, res, next) => {
 
 module.exports = {
     showDevices,
-    createDevice
+    createDevice,
+    showDevice
 }

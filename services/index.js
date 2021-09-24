@@ -10,19 +10,24 @@ const craneList = []
 const createDevice = async (data) => {
 
     try {
-
-        const newCrange = new crane(data.body)
+        const newCrange = new crane(data.body["id"], data.body["crane_id"], data.body["description"], data.body["serial_number"])
         craneList.push(newCrange)
-        console.log(data.body)
     } catch (e) {
         throw new Error(e.message)
     }
 }
 
-const getDevices = async () => {
+const getCranes = async () => {
     try {
-        console.log(craneList)
         return await craneList
+    } catch (e) {
+        throw new Error(e.message)
+    }
+}
+
+const getDevice = async (device_id) => {
+    try {
+        return await craneList.find(element => element.id == device_id)
     } catch (e) {
         throw new Error(e.message)
     }
@@ -30,5 +35,6 @@ const getDevices = async () => {
 
 module.exports = {
     createDevice,
-    getDevices
+    getCranes,
+    getDevice
 }
