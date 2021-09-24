@@ -19,7 +19,7 @@ const createDevice = async (data) => {
 
 const getCranes = async () => {
     try {
-        return await craneList
+        return await craneList.filter(crane => crane.deleted == false)
     } catch (e) {
         throw new Error(e.message)
     }
@@ -33,8 +33,22 @@ const getDevice = async (device_id) => {
     }
 }
 
+const setDeleteDevice = async (device_id) => {
+    try {
+        console.log("time to delete")
+
+        deviceIndex = craneList.findIndex(element => element.id == device_id)
+
+        craneList[deviceIndex]["deleted"] = true
+        return true
+    } catch (e) {
+        throw new Error(e.message)
+    }
+}
+
 module.exports = {
     createDevice,
     getCranes,
-    getDevice
+    getDevice,
+    setDeleteDevice
 }

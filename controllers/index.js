@@ -35,6 +35,23 @@ const showDevice = async (req, res, next) => {
 
 }
 
+const deleteDevice = async (req, res, next) => {
+
+    try {
+        wasDeleted = await deviceServices.setDeleteDevice(req.params.id)
+        if (wasDeleted) {
+            res.writeHead(200, { 'Content-Type': 'text/html' });
+            res.end("Device was deleted")
+        }
+        else {
+            res.sendStatus(404);
+        }
+    } catch (e) {
+        console.log(e.message)
+        res.sendStatus(500) && next(error)
+    }
+
+}
 
 const createDevice = async (req, res, next) => {
     try {
@@ -61,5 +78,6 @@ const createDevice = async (req, res, next) => {
 module.exports = {
     showDevices,
     createDevice,
-    showDevice
+    showDevice,
+    deleteDevice
 }
