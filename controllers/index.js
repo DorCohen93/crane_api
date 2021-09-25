@@ -5,6 +5,7 @@
  * call other imported services, or same service but different functions here if you need to
 */
 
+const querystring = require('querystring');
 const deviceServices = require("../services")
 const showDevices = async (req, res, next) => {
     try {
@@ -53,6 +54,26 @@ const deleteDevice = async (req, res, next) => {
 
 }
 
+
+const modifyDevice = async (req, res, next) => {
+
+    try {
+        console.log(req.query)
+        wasModified = await deviceServices.modifyDevice(req.params.id, req.query)
+        if (wasModified) {
+            res.writeHead(200, { 'Content-Type': 'text/html' });
+            res.end("Device was modified")
+        }
+        else {
+            res.sendStatus(404);
+        }
+    } catch (e) {
+        console.log(e.message)
+        res.sendStatus(500) && next(error)
+    }
+
+}
+
 const createDevice = async (req, res, next) => {
     try {
         craneList = await deviceServices.getCranes()
@@ -79,5 +100,6 @@ module.exports = {
     showDevices,
     createDevice,
     showDevice,
-    deleteDevice
+    deleteDevice,
+    modifyDevice
 }

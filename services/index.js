@@ -46,9 +46,24 @@ const setDeleteDevice = async (device_id) => {
     }
 }
 
+const modifyDevice = async (device_id, newProperties) => {
+    try {
+        deviceIndex = craneList.findIndex(element => element.id == device_id)
+        for (property in newProperties) {
+            console.log(property)
+            craneList[deviceIndex][property] = newProperties[property]
+
+        }
+        return true
+    } catch (e) {
+        throw new Error(e.message)
+    }
+}
+
 module.exports = {
     createDevice,
     getCranes,
     getDevice,
-    setDeleteDevice
+    setDeleteDevice,
+    modifyDevice
 }
